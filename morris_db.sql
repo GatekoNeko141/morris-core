@@ -15,9 +15,35 @@ CREATE TABLE users(
   type_user INT NOT NULL,
 PRIMARY KEY (id)) ENGINE = InnoDB;
 
+--Tabla de Estados
+CREATE TABLE status(
+  id INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(50) NOT NULL,
+PRIMARY KEY (id)) ENGINE = InnoDB;
+
 --Tabla de Frutas
 CREATE TABLE frutas(
   id INT NOT NULL AUTO_INCREMENT,
   nombre VARCHAR(50) NOT NULL,
   precio INT NOT NULL,
 PRIMARY KEY (id)) ENGINE = InnoDB;
+
+--REGISTROS
+INSERT INTO status (nombre) VALUES
+('Activado'), ('Pendiente'), ('Desactivado');
+
+--JOINS (Pendientes a ser Procedimientos Almacenados)
+SELECT
+  U.id,
+  U.nombres,
+  U.apellidos,
+  U.user_name,
+  U.email,
+  U.password,
+  U.token_verify,
+  U.created,
+  U.modified,
+  S.nombre AS 'status',
+  U.type_user
+FROM users AS U
+INNER JOIN status AS S IN S.id = U.status;

@@ -1,10 +1,10 @@
-const conn = require("./db")
-const tools = require("./tools")
+const conn = require("../db")
+const tools = require("../tools")
 
 exports.read = async (req, res) =>{
   const hasSesion = await tools.validateSesion(req, res)
   if(hasSesion){
-    let sql = "SELECT * FROM platillo"
+    let sql = "SELECT * FROM frutas"
     conn.query(sql, (err, result) => {
       if(err) throw err
       res.status(200).json(result)
@@ -17,7 +17,7 @@ exports.read = async (req, res) =>{
 exports.read_one = async (req, res) =>{
   const hasSesion = await tools.validateSesion(req, res)
   if(hasSesion){
-    let sql = "SELECT * FROM platillo WHERE id = ?"
+    let sql = "SELECT * FROM frutas WHERE id = ?"
     conn.query(sql, [req.params.id], (err, result) => {
       if(err) throw err
       if(result.length > 0){
@@ -34,7 +34,7 @@ exports.read_one = async (req, res) =>{
 exports.create = async (req, res) => {
   const hasSesion = await tools.validateSesion(req, res)
   if(hasSesion){
-    let sql = "INSERT INTO platillo SET ?"
+    let sql = "INSERT INTO frutas SET ?"
     conn.query(sql, [req.body], (err, result) => {
       if(err) throw err
       res.status(200).json({message: "Registro agregado"})
@@ -47,7 +47,7 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) =>{
   const hasSesion = await tools.validateSesion(req, res)
   if(hasSesion){
-    let sql = "UPDATE platillo SET ? WHERE id = ?"
+    let sql = "UPDATE frutas SET ? WHERE id = ?"
     conn.query(sql, [req.body, req.params.id], (err, result) => {
       if(err) throw err
       res.status(200).json({message: "Registro actualizado"})
@@ -60,7 +60,7 @@ exports.update = async (req, res) =>{
 exports.delete = async (req, res) =>{
   const hasSesion = await tools.validateSesion(req, res)
   if(hasSesion){
-    let sql = "DELETE FROM platillo WHERE id = ?"
+    let sql = "DELETE FROM frutas WHERE id = ?"
     conn.query(sql, [req.params.id], (err, result) => {
       if(err) throw err
       if(result.affectedRows > 0){

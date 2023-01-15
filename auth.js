@@ -13,8 +13,8 @@ exports.register = async (req, res) => {
     email: req.body.email,
     password: await crypt.hash(req.body.password, 8),
     token_verify: await tools.generateRandomString(20),
-    status: 1,
-    type_user: 1
+    id_status: 1,
+    id_type_user: 1
   }
 
   let sqlSelect = "SELECT * FROM users WHERE user_name = ?"
@@ -43,13 +43,13 @@ exports.login = async (req, res) => {
         res.status(404).json({message: "La contraseña ingresada es Incorrecta"})
       }else{
         const userJson = {
-          id: result[0].id,
+          id_user: result[0].id_user,
           nombres: result[0].nombres,
           apellidos: result[0].apellidos,
           user_name: result[0].user_name,
           email: result[0].email,
-          status: result[0].status,
-          type_user: result[0].type_user
+          id_status: result[0].id_status,
+          id_type_user: result[0].id_type_user
         }
         const token = jwt.sign(userJson, process.env.JWT_SECRET_KEY, {expiresIn: process.env.JWT_TIME_SESSION})
 
@@ -83,8 +83,8 @@ exports.isAuth = async (req, res) => {
           apellidos: result[0].apellidos,
           user_name: result[0].user_name,
           email: result[0].email,
-          status: result[0].status,
-          type_user: result[0].type_user
+          id_status: result[0].id_status,
+          id_type_user: result[0].id_type_user
         })
       })
     } catch (error) {

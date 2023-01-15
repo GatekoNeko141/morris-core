@@ -17,8 +17,8 @@ exports.read = async (req, res) =>{
 exports.read_one = async (req, res) =>{
   const hasSesion = await tools.validateSesion(req, res)
   if(hasSesion){
-    let sql = "SELECT * FROM frutas WHERE id = ?"
-    conn.query(sql, [req.params.id], (err, result) => {
+    let sql = "SELECT * FROM frutas WHERE id_fruta = ?"
+    conn.query(sql, [req.params.id_fruta], (err, result) => {
       if(err) throw err
       if(result.length > 0){
         res.status(200).json(result)
@@ -47,8 +47,8 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) =>{
   const hasSesion = await tools.validateSesion(req, res)
   if(hasSesion){
-    let sql = "UPDATE frutas SET ? WHERE id = ?"
-    conn.query(sql, [req.body, req.params.id], (err, result) => {
+    let sql = "UPDATE frutas SET ? WHERE id_fruta = ?"
+    conn.query(sql, [req.body, req.params.id_fruta], (err, result) => {
       if(err) throw err
       res.status(200).json({message: "Registro actualizado"})
     })
@@ -60,8 +60,8 @@ exports.update = async (req, res) =>{
 exports.delete = async (req, res) =>{
   const hasSesion = await tools.validateSesion(req, res)
   if(hasSesion){
-    let sql = "DELETE FROM frutas WHERE id = ?"
-    conn.query(sql, [req.params.id], (err, result) => {
+    let sql = "DELETE FROM frutas WHERE id_fruta = ?"
+    conn.query(sql, [req.params.id_fruta], (err, result) => {
       if(err) throw err
       if(result.affectedRows > 0){
         res.status(200).json({message: "Registro eliminado"})

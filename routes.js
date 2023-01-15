@@ -12,9 +12,9 @@ router.get('/logout', auth.logout)
 
 // ENDPOINTS O MICROSERVICIOS
 router.get('/read', frutas.read)
-router.get('/read_one/:id', frutas.read_one)
+router.get('/read_one/:id_fruta', frutas.read_one)
 router.post('/create', frutas.create)
-router.put('/update/:id', frutas.update)
-router.delete('/delete/:id', frutas.delete)
+router.put('/update/:id_fruta', frutas.update)
+router.delete('/delete/:id_fruta', frutas.delete)
 
 module.exports = router

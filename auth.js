@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
     id_type_user: 1
   }
 
-  let sqlSelect = "SELECT * FROM users WHERE user_name = ?"
+  let sqlSelect = "SELECT id_user FROM users WHERE user_name = ?"
   conn.query(sqlSelect, [dataUser.user_name], (err, result) => {
     if(err) throw err
     if(result.length > 0){
@@ -38,32 +38,45 @@ exports.login = async (req, res) => {
 
   let sql = "SELECT * FROM users WHERE user_name = ?"
   conn.query(sql, [user_name], async (err, result) => {
+    if(err) throw res.status(404).json({error: err})
     if(result.length != 0){
       if(!(await crypt.compare(password, result[0].password))){
         res.status(404).json({message: "La contraseña ingresada es Incorrecta"})
       }else{
-        const userJson = {
-          id_user: result[0].id_user,
-          nombres: result[0].nombres,
-          apellidos: result[0].apellidos,
-          user_name: result[0].user_name,
-          email: result[0].email,
-          id_status: result[0].id_status,
-          id_type_user: result[0].id_type_user
-        }
-        const token = jwt.sign(userJson, process.env.JWT_SECRET_KEY, {expiresIn: process.env.JWT_TIME_SESSION})
-
-        const cookiesOptions = {
-          expiresIn: new Date(Date.now()+process.env.JWT_TIME_COOKIE),
-          maxAge: process.env.JWT_TIME_COOKIE * 1000,
-          httpOnly: true
-        }
-        
-        res.cookie('jwt', token, cookiesOptions)
-        
-        res.status(200).json({
-          user: userJson,
-          token: token
+        conn.query("CALL getUserPermission(?)", result[0].id_user, (err, resProcedure) => {
+          if(err) throw res.status(404).json({error: err})
+          let userJson = {
+            id_user: result[0].id_user,
+            nombres: result[0].nombres,
+            apellidos: result[0].apellidos,
+            user_name: result[0].user_name,
+            email: result[0].email,
+            id_status: result[0].id_status,
+            id_type_user: result[0].id_type_user,
+            permissions: {}
+          }
+          resProcedure[0].forEach(tables => {
+            userJson.permissions[tables.tabla] = {
+              can_create: tables.can_create,
+              can_read: tables.can_read,
+              can_update: tables.can_update,
+              can_delete: tables.can_delete
+            }
+          })
+          const token = jwt.sign(userJson, process.env.JWT_SECRET_KEY, {expiresIn: process.env.JWT_TIME_SESSION})
+  
+          const cookiesOptions = {
+            expiresIn: new Date(Date.now()+process.env.JWT_TIME_COOKIE),
+            maxAge: process.env.JWT_TIME_COOKIE * 1000,
+            httpOnly: true
+          }
+          
+          res.cookie('jwt', token, cookiesOptions)
+          
+          res.status(200).json({
+            user: userJson,
+            token: token
+          })
         })
       }
     }else{
@@ -78,13 +91,15 @@ exports.isAuth = async (req, res) => {
       const decode = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET_KEY)
       let sql = "SELECT * FROM users WHERE user_name = ?"
       conn.query(sql, [decode.user_name], async (err, result) => {
+        if(err) throw res.status(404).json({error: err})
         res.status(200).json({
           nombres: result[0].nombres,
           apellidos: result[0].apellidos,
           user_name: result[0].user_name,
           email: result[0].email,
           id_status: result[0].id_status,
-          id_type_user: result[0].id_type_user
+          id_type_user: result[0].id_type_user,
+          permissions: decode.permissions
         })
       })
     } catch (error) {

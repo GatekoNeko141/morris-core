@@ -6,7 +6,8 @@ CREATE DATABASE morris_db;
 CREATE TABLE status(
   id_status INT NOT NULL AUTO_INCREMENT,
   nombre VARCHAR(50) NOT NULL,
-PRIMARY KEY (id_status)) ENGINE = InnoDB;
+  PRIMARY KEY (id_status)
+) ENGINE = InnoDB;
 
 /*Tabla de Tipos de Usuario*/
 CREATE TABLE type_users(
@@ -40,10 +41,10 @@ CREATE TABLE permissions(
   id_permission INT NOT NULL AUTO_INCREMENT,
   id_type_user INT NOT NULL,
   tabla VARCHAR(50) NOT NULL,
-  can_create BIT DEFAULT 0,
-  can_read BIT DEFAULT 0,
-  can_update BIT DEFAULT 0,
-  can_delete BIT DEFAULT 0,
+  can_create BOOLEAN DEFAULT 0,
+  can_read BOOLEAN DEFAULT 0,
+  can_update BOOLEAN DEFAULT 0,
+  can_delete BOOLEAN DEFAULT 0,
   PRIMARY KEY (id_permission),
   FOREIGN KEY (id_type_user) REFERENCES type_users(id_type_user) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB;
@@ -53,15 +54,15 @@ CREATE TABLE frutas(
   id_fruta INT NOT NULL AUTO_INCREMENT,
   nombre VARCHAR(50) NOT NULL,
   precio INT NOT NULL,
-  PRIMARY KEY (id_frutas)
+  PRIMARY KEY (id_fruta)
 ) ENGINE = InnoDB;
 
 /*Tabla de Paises*/
 CREATE TABLE paises(
-  id_paise INT NOT NULL AUTO_INCREMENT,
+  id_pais INT NOT NULL AUTO_INCREMENT,
   nombre VARCHAR(50) NOT NULL,
   poblacion VARCHAR(50) NOT NULL,
-  PRIMARY KEY (id_paises)
+  PRIMARY KEY (id_pais)
 ) ENGINE = InnoDB;
 
 
@@ -93,7 +94,7 @@ INSERT INTO paises (nombre, poblacion) VALUES
 
 /*PROCEDIMIENTOS*/
 
-CREATE PROCEDURE getUsers(IN id_user INT)
+CREATE PROCEDURE getUsers(IN id_user INT) /*Sin uso*/
 BEGIN
   SELECT
     U.id_user,

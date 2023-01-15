@@ -2,11 +2,11 @@ const conn = require("../db")
 const tools = require("../tools")
 
 exports.read = async (req, res) =>{
-  const hasSesion = await tools.validateSesion(req, res)
-  if(hasSesion){
+  const canExcecute = await tools.userValidator(req, res, "frutas", "can_read")
+  if(canExcecute){
     let sql = "SELECT * FROM frutas"
     conn.query(sql, (err, result) => {
-      if(err) throw err
+      if(err) throw res.status(404).json({error: err})
       res.status(200).json(result)
     })
   }else{
@@ -15,11 +15,11 @@ exports.read = async (req, res) =>{
 }
 
 exports.read_one = async (req, res) =>{
-  const hasSesion = await tools.validateSesion(req, res)
-  if(hasSesion){
+  const canExcecute = await tools.userValidator(req, res, "frutas", "can_read")
+  if(canExcecute){
     let sql = "SELECT * FROM frutas WHERE id_fruta = ?"
     conn.query(sql, [req.params.id_fruta], (err, result) => {
-      if(err) throw err
+      if(err) throw res.status(404).json({error: err})
       if(result.length > 0){
         res.status(200).json(result)
       }else{
@@ -32,11 +32,11 @@ exports.read_one = async (req, res) =>{
 }
 
 exports.create = async (req, res) => {
-  const hasSesion = await tools.validateSesion(req, res)
-  if(hasSesion){
+  const canExcecute = await tools.userValidator(req, res, "frutas", "can_create")
+  if(canExcecute){
     let sql = "INSERT INTO frutas SET ?"
     conn.query(sql, [req.body], (err, result) => {
-      if(err) throw err
+      if(err) throw res.status(404).json({error: err})
       res.status(200).json({message: "Registro agregado"})
     })
   }else{
@@ -45,11 +45,11 @@ exports.create = async (req, res) => {
 }
 
 exports.update = async (req, res) =>{
-  const hasSesion = await tools.validateSesion(req, res)
-  if(hasSesion){
+  const canExcecute = await tools.userValidator(req, res, "frutas", "can_update")
+  if(canExcecute){
     let sql = "UPDATE frutas SET ? WHERE id_fruta = ?"
     conn.query(sql, [req.body, req.params.id_fruta], (err, result) => {
-      if(err) throw err
+      if(err) throw res.status(404).json({error: err})
       res.status(200).json({message: "Registro actualizado"})
     })
   }else{
@@ -58,11 +58,11 @@ exports.update = async (req, res) =>{
 }
 
 exports.delete = async (req, res) =>{
-  const hasSesion = await tools.validateSesion(req, res)
-  if(hasSesion){
+  const canExcecute = await tools.userValidator(req, res, "frutas", "can_delete")
+  if(canExcecute){
     let sql = "DELETE FROM frutas WHERE id_fruta = ?"
     conn.query(sql, [req.params.id_fruta], (err, result) => {
-      if(err) throw err
+      if(err) throw res.status(404).json({error: err})
       if(result.affectedRows > 0){
         res.status(200).json({message: "Registro eliminado"})
       }else{

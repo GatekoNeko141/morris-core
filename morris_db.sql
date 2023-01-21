@@ -81,6 +81,8 @@ INSERT INTO permissions (id_type_user, tabla, can_create, can_read, can_update, 
 
 INSERT INTO users (nombres, apellidos, user_name, email, password, token_verify, id_status, id_type_user) VALUES
 ('John', 'Doe', 'johndoe', 'admin@dwings.com', '$2a$08$DlOe4MudRQyR2LqZ1SMkF.GHLHS2pDohDHjLwO8Y8qjRZTu5Tf5uW', 'ejrErYQdBb4uKt4awHR9', 1, 1);
+('Gary', 'Stu', 'garystu', 'gary@dwings.com', '$2a$08$b1NaoscBaEYfNP47ffTPiO6mIldKQrKdjEo2UxP.eZMf3IrgAcX.q', '4CEiDUDlu6AJdzjDoYxn', 1, 2);
+('Usuario', 'Prueba', 'test', 'test@dwings.com', '$2a$08$9zPbZVg4CxpBE1iiWvtjPOXLmYl3WKfcCHflwUNp5kynqKId74wre', 'xeLjLRWnC0slV8iAbpDN', 1, 3);
 
 INSERT INTO frutas (nombre, precio) VALUES
 ('Manzana', 2200),

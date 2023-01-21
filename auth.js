@@ -14,7 +14,7 @@ exports.register = async (req, res) => {
     password: await crypt.hash(req.body.password, 8),
     token_verify: await tools.generateRandomString(20),
     id_status: 1,
-    id_type_user: 2
+    id_type_user: 3
   }
 
   let sqlSelect = "SELECT id_user FROM users WHERE user_name = ?"

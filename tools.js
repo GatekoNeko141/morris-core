@@ -4,10 +4,12 @@ exports.userValidator = async (req, res, table, action) => {
   let response = false
   jwt.verify(req.cookies.jwt, process.env.JWT_SECRET_KEY, (error, authData) => {
     if(!error){
-      if(authData.permissions[table][action] != 0){
-        response = true
-      }else{
-        response = false
+      if(typeof authData.permissions[table] !== "undefined" && typeof authData.permissions[table][action] !== "undefined"){
+        if(authData.permissions[table][action] != 0){
+          response = true
+        }else{
+          response = false
+        }
       }
     }else{
       response = false

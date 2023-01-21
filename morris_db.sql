@@ -74,15 +74,17 @@ INSERT INTO status (nombre) VALUES
 INSERT INTO type_users (nombre, id_status) VALUES
 ('Programador', 1), ('Admin', 1), ('Gerencia', 1);
 
-INSERT INTO permissions (id_type_user, tabla) VALUES
-(1, 'frutas'),(1, 'paises');
+INSERT INTO permissions (id_type_user, tabla, can_create, can_read, can_update, can_delete) VALUES
+(1, 'users',1,1,1,1),(1, 'type_users',1,1,1,1),(1, 'frutas',1,1,1,1),(1, 'paises',1,1,1,1),
+(2, 'users',1,1,1,1),(2, 'frutas',1,1,1,1),(2, 'paises',1,1,1,1),
+(3, 'frutas',1,1,1,0),(3, 'paises',1,1,1,0);
 
 INSERT INTO users (nombres, apellidos, user_name, email, password, token_verify, id_status, id_type_user) VALUES
 ('John', 'Doe', 'johndoe', 'admin@dwings.com', '$2a$08$DlOe4MudRQyR2LqZ1SMkF.GHLHS2pDohDHjLwO8Y8qjRZTu5Tf5uW', 'ejrErYQdBb4uKt4awHR9', 1, 1);
 
 INSERT INTO frutas (nombre, precio) VALUES
 ('Manzana', 2200),
-('Racimo de Uvas', 4000),
+('Uvas', 4000),
 ('Banano', 1000);
 
 INSERT INTO paises (nombre, poblacion) VALUES
@@ -114,7 +116,7 @@ BEGIN
   WHERE U.id_user = id_user;
 END;
 
-CREATE PROCEDURE getUserPermission(IN id_user INT)
+CREATE PROCEDURE getUserPermission(IN id_user_param INT)
 BEGIN
   SELECT
     TU.nombre AS 'type_user',
@@ -127,5 +129,5 @@ BEGIN
   FROM permissions AS PER
   INNER JOIN type_users AS TU ON TU.id_type_user = PER.id_type_user
   INNER JOIN status AS S ON S.id_status = TU.id_status
-  WHERE PER.id_type_user = (SELECT id_type_user FROM users WHERE id_user = id_user);
+  WHERE PER.id_type_user = (SELECT id_type_user FROM users WHERE id_user = id_user_param LIMIT 1);
 END;

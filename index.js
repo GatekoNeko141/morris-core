@@ -20,8 +20,8 @@ for(let i in interfaces) {
 
 const app = express()
 
-const host = process.env.SV_HOST || addresses[0]
-const port = process.env.SV_PORT || 3000
+const host = process.env.HOST || addresses[0]
+const port = process.env.PORT || 3000
 
 app.set("port", port)
 

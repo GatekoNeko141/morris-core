@@ -133,3 +133,5 @@ BEGIN
   INNER JOIN status AS S ON S.id_status = TU.id_status
   WHERE PER.id_type_user = (SELECT id_type_user FROM users WHERE id_user = id_user_param LIMIT 1);
 END;
+
+ALTER USER 'root'@'localhost' identified with mysql_native_password by 'rootgko'

@@ -1,4 +1,4 @@
-const mysql = require("mysql")
+const mysql = require("mysql2")
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -7,8 +7,6 @@ const db = mysql.createConnection({
   password: process.env.DB_PASS,
   database: process.env.DB_DATABASE
 })
-
-//const db = mysql.createConnection("mysql://root:jKtqlxfcW9Yr8g5Z6cUL@containers-us-west-168.railway.app:7011/railway")
 
 db.connect(err => {
   if(err){

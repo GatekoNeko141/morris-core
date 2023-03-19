@@ -1,5 +1,7 @@
-const conn = require("../db")
+const db = require("../db")
 const tools = require("../tools")
+
+const conn = db.connect()
 
 exports.read = async (req, res) =>{
   const canExcecute = await tools.userValidator(req, res, "frutas", "can_read")

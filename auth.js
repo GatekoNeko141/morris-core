@@ -1,7 +1,9 @@
 const jwt = require("jsonwebtoken")
 const crypt = require('bcryptjs')
-const conn = require("./db")
+const db = require("./db")
 const { promisify } = require("util")
+
+const conn = db.connect()
 
 const tools = require("./tools")
 

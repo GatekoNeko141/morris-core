@@ -1,6 +1,8 @@
-const conn = require("../db")
+const db = require("../db")
 const tools = require("../tools")
 const crypt = require('bcryptjs')
+
+const conn = db.connect()
 
 exports.read = async (req, res) =>{
   const canExcecute = await tools.userValidator(req, res, "users", "can_read")

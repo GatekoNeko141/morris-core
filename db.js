@@ -13,7 +13,6 @@ exports.connect = () => {
     if(err){
       throw err
     }
-    console.log('MySQL Conectado!')
   })
   
   return db

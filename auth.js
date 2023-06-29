@@ -94,6 +94,7 @@ exports.login = async (req, res) => {
         res.status(404).json({message: "Usuario no registrado"})
       }
     })
+
   } catch (error) {
     res.status(500).json({message: "Error de autenticación", error})
   }
@@ -120,14 +121,14 @@ exports.isAuth = async (req, res) => {
             permissions: decode.permissions
           })
         })
-
-        conn.end()
       }else{
         res.status(200).json({message: "Este usuario no se encuentra autenticado"})
       }
     }else{
       res.status(401).json({message: "Error de autenticación", error: { name: "NoAuthHeader", message: "La clave de autenticación no proporcionada"}})
     }
+    
+    conn.end()
   } catch (error) {
     res.status(500).json({message: "Error de autenticación", error})
   }

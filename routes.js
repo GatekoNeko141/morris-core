@@ -9,7 +9,7 @@ const users =  require("./modules/users")
 // AUTENTICACION DE USUARIOS
 router.post('/register', auth.register)
 router.post('/login', auth.login)
-router.get('/is_auth', auth.isAuth)
+router.post('/is_auth', auth.isAuth)
 router.get('/logout', auth.logout)
 
 // ENDPOINTS O MICROSERVICIOS
